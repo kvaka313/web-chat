@@ -2,6 +2,7 @@ package com.infopulse.controllres;
 
 import com.infopulse.converters.ChatUserConvert;
 import com.infopulse.dto.ChatUserDto;
+import com.infopulse.services.RegistrationService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
