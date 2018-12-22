@@ -13,17 +13,13 @@ public class RegistrationController {
 
     private RegistrationService registrationService;
 
-    private ChatUserConvert chatUserConvert;
-
-    public RegistrationController(RegistrationService registrationService,
-                                  ChatUserConvert chatUserConvert){
+    public RegistrationController(RegistrationService registrationService){
         this.registrationService = registrationService;
-        this.chatUserConvert = chatUserConvert;
     }
 
     @RequestMapping(params = "/registration", method = RequestMethod.POST)
     public void registration(@Valid ChatUserDto chatUserDto){
-         registrationService.saveUser(chatUserConvert.convertToEntity(chatUserDto));
+         registrationService.saveUser(chatUserDto);
     }
 
 }

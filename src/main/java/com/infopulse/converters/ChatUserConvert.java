@@ -14,4 +14,12 @@ public class ChatUserConvert {
         chatUser.setPassword(chatUserDto.getPassword());
         return chatUser;
     }
+
+    public ChatUserDto convertToDto(ChatUser chatUser){
+        ChatUserDto chatUserDto = new ChatUserDto();
+        chatUserDto.setName(chatUser.getName());
+        chatUserDto.setPassword(chatUser.getPassword());
+        chatUserDto.setLogin(chatUser.getLogin());
+        return chatUserDto;
+    }
 }

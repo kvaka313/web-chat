@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -28,6 +30,16 @@ public class ChatUser {
 
     @Column(name="password", nullable = false)
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="last_visit")
+    private Date lastVisit;
+
+    @OneToOne(mappedBy = "chatuser",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Ban ban;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
 
 
 }
