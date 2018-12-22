@@ -1,6 +1,7 @@
 package com.infopulse.exceptions.common;
 
 import com.infopulse.dto.ErrorInfo;
+import com.infopulse.exceptions.MessageException;
 import com.infopulse.exceptions.UserAlreadyExist;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +17,15 @@ public class ExceptionHandlerService {
     @ExceptionHandler({UserAlreadyExist.class})
     @ResponseBody
     public ErrorInfo handle(HttpServletRequest request, Exception exception){
+        return new ErrorInfo().setMessage(exception.getMessage())
+                .setDeveloperMessage(exception.toString())
+                .setUri(request.getRequestURI());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({MessageException.class})
+    @ResponseBody
+    public ErrorInfo handleMessage(HttpServletRequest request, MessageException exception){
         return new ErrorInfo().setMessage(exception.getMessage())
                 .setDeveloperMessage(exception.toString())
                 .setUri(request.getRequestURI());
