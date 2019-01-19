@@ -26,3 +26,6 @@ spring:
             headerMode: raw
 server:
   port: 8087
+
+redis:
+  host: 127.0.0.1

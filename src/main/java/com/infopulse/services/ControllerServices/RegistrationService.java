@@ -1,7 +1,7 @@
-package com.infopulse.services;
+package com.infopulse.services.ControllerServices;
 
 import com.infopulse.converters.ChatUserConvert;
-import com.infopulse.dataservices.ChatUserDataService;
+import com.infopulse.services.dataservices.ChatUserDataService;
 import com.infopulse.dto.ChatUserDto;
 import com.infopulse.entities.ChatUser;
 import org.springframework.context.ApplicationEventPublisher;

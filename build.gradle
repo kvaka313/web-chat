@@ -61,6 +61,10 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-stream'
     compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
 
+    //redis
+    compile 'org.springframework.data:spring-data-redis'
+    compile 'redis.clients:jedis:3.0.0'
+
 
     compile 'org.postgresql:postgresql:42.2.3'
 

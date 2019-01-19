@@ -1,4 +1,4 @@
-package com.infopulse.dataservices;
+package com.infopulse.services.dataservices;
 
 import com.infopulse.entities.ChatUser;
 import com.infopulse.exceptions.UserAlreadyExist;
