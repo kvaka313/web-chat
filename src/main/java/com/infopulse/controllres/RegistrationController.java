@@ -25,7 +25,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value="/users", method=RequestMethod.GET)
-    public List<ChatUserDto> getAllUsersExceptAdmins(){
+    public List<ChatUserDto> getAllUsers(){
         return registrationService.getAllUsers();
     }
 

@@ -15,11 +15,14 @@ public class ChatUserConvert {
         return chatUser;
     }
 
-    public ChatUserDto convertToDto(ChatUser chatUser){
+    public ChatUserDto convertToDto(ChatUser chatUser, boolean sendPassword){
         ChatUserDto chatUserDto = new ChatUserDto();
         chatUserDto.setName(chatUser.getName());
-        chatUserDto.setPassword(chatUser.getPassword());
+        if(sendPassword) {
+            chatUserDto.setPassword(chatUser.getPassword());
+        }
         chatUserDto.setLogin(chatUser.getLogin());
+        chatUserDto.setBanned(chatUser.getBan()!=null);
         return chatUserDto;
     }
 }

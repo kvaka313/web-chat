@@ -29,14 +29,14 @@ public class RegistrationService {
 
     public void saveUser(ChatUserDto chatUserDto){
         ChatUser chatUser = chatUserDataService.saveUser(chatUserConvert.convertToEntity(chatUserDto));
-        ChatUserDto newChatUserDto = chatUserConvert.convertToDto(chatUser);
+        ChatUserDto newChatUserDto = chatUserConvert.convertToDto(chatUser, true);
         applicationEventPublisher.publishEvent(newChatUserDto);
 
     }
 
     public List<ChatUserDto> getAllUsers(){
         return chatUserDataService.getAll().stream()
-                .map(entity -> chatUserConvert.convertToDto(entity))
+                .map(entity -> chatUserConvert.convertToDto(entity,false))
                 .collect(Collectors.toList());
     }
 }
