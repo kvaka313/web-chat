@@ -65,6 +65,10 @@ dependencies {
     compile 'org.springframework.data:spring-data-redis'
     compile 'redis.clients:jedis:3.0.0'
 
+    //security
+    compile 'org.keycloak:keycloak-spring-security-adapter:4.8.1.Final'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+
 
     compile 'org.postgresql:postgresql:42.2.3'
 

@@ -1,5 +1,6 @@
 package com.infopulse.configuration;
 
+import com.infopulse.controllres.WebSocketController;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;

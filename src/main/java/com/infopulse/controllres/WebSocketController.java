@@ -82,6 +82,7 @@ public class WebSocketController extends TextWebSocketHandler {
                         "LOGOUT");
                 sendPrivateMessage(session.getPrincipal().getName(), sendMessage);
                 removeFromActiveUsers(session.getPrincipal().getName());
+                sendAllChangeActiveList();
                 break;
             }
         }
