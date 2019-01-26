@@ -6,6 +6,8 @@ import com.infopulse.repositories.ChatUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ChatUserDataService {
 
@@ -23,5 +25,9 @@ public class ChatUserDataService {
         }
 
         return chatUserRepository.save(chatUser);
+    }
+
+    public List<ChatUser> getAll(){
+        return chatUserRepository.findAll();
     }
 }

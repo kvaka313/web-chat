@@ -7,6 +7,9 @@ import com.infopulse.entities.ChatUser;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RegistrationService {
 
@@ -29,5 +32,11 @@ public class RegistrationService {
         ChatUserDto newChatUserDto = chatUserConvert.convertToDto(chatUser);
         applicationEventPublisher.publishEvent(newChatUserDto);
 
+    }
+
+    public List<ChatUserDto> getAllUsers(){
+        return chatUserDataService.getAll().stream()
+                .map(entity -> chatUserConvert.convertToDto(entity))
+                .collect(Collectors.toList());
     }
 }
