@@ -22,7 +22,7 @@ public class ChatUserConvert {
             chatUserDto.setPassword(chatUser.getPassword());
         }
         chatUserDto.setLogin(chatUser.getLogin());
-        chatUserDto.setBanned(chatUser.getBan()!=null);
+        chatUserDto.setIsBanned(chatUser.getBan()!=null);
         return chatUserDto;
     }
 }

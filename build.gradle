@@ -63,7 +63,7 @@ dependencies {
 
     //redis
     compile 'org.springframework.data:spring-data-redis'
-    compile 'redis.clients:jedis:3.0.0'
+    compile 'redis.clients:jedis:2.9.0'
 
     //security
     compile 'org.keycloak:keycloak-spring-security-adapter:4.8.1.Final'

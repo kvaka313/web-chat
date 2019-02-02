@@ -117,10 +117,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .addFilterBefore(exceptionTranslationFilter(), KeycloakPreAuthActionsFilter.class)
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.GET,"/users").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.POST, "/ban").hasRole("ROLE_ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/ban").hasRole("ROLE_ADMIN")
-                .antMatchers("/socket").hasRole("ROLE_USER")
+                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/ban").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/ban").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/registration").permitAll()
+                .antMatchers("/socket").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
                 // logout settings - copied from KeycloakWebSecurityConfigurerAdapter

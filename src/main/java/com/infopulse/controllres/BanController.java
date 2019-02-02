@@ -13,11 +13,13 @@ public class BanController {
         this.banControllerService = banControllerService;
     }
 
+    @CrossOrigin
     @RequestMapping(value="/ban", method = RequestMethod.POST)
     public void addUserToBan(@RequestBody ChatUserDto chatUserDto){
         banControllerService.addUserToBan(chatUserDto);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/ban/{login}", method = RequestMethod.DELETE)
     public void removeUserFromBan(@PathVariable("login") String login){
         banControllerService.removeUserFromBan(login);
