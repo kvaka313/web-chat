@@ -16,10 +16,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.preauth.x509.X509AuthenticationFilter;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -106,17 +112,21 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                //TODO: remove this line before going live!
+                .csrf().disable()
+                .cors().disable()
                 //.csrf().requireCsrfProtectionMatcher(keycloakCsrfRequestMatcher())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
                 .and()
                 .addFilterBefore(keycloakPreAuthActionsFilter(), LogoutFilter.class)
-                //.addFilterBefore(keycloakAuthenticationProcessingFilter(), X509AuthenticationFilter.class)
+                .addFilterBefore(keycloakAuthenticationProcessingFilter(), X509AuthenticationFilter.class)
                 .addFilterBefore(exceptionTranslationFilter(), KeycloakPreAuthActionsFilter.class)
                 .authorizeRequests()
 
+                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/ban").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/ban").hasRole("ADMIN")
@@ -131,5 +141,16 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/");
 
     }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 
 }

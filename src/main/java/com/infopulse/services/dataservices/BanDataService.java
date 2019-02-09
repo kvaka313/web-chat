@@ -52,6 +52,7 @@ public class BanDataService {
             throw new UserCanNotBeUnBanedException("User can not be deleted from ban");
         }
         Ban ban = chatUser.getBan();
+        chatUser.setBan(null);
         banRepository.delete(ban);
     }
 }
