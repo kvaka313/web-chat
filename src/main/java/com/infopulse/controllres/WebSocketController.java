@@ -14,11 +14,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
 public class WebSocketController extends TextWebSocketHandler {
 
     @Autowired
@@ -32,6 +32,17 @@ public class WebSocketController extends TextWebSocketHandler {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        activeUsers.put((String)session.getAttributes().get("login"), session);
+        List<SendMessage> messageList = webSocketService.getAllMessage((String)session.getAttributes().get("login"));
+        messageList
+                .stream()
+                .peek(m -> sendPrivateMessage((String)session.getAttributes().get("login"), m)).count();
+        webSocketService.deleteAllPrivateMessages((String)session.getAttributes().get("login"));
+        sendAllChangeActiveList();
+    }
+
+    @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws IOException {
         String jsonString = message.getPayload();
@@ -42,22 +53,13 @@ public class WebSocketController extends TextWebSocketHandler {
         if (!violations.isEmpty()) {
             //send error message
             String errorMessage = getErrorMessage(violations);
-            SendMessage sendMessage = createSendMessage(session.getPrincipal().getName(), errorMessage, "ERROR");
-            sendPrivateMessage(session.getPrincipal().getName(), sendMessage);
+            SendMessage sendMessage = createSendMessage((String)session.getAttributes().get("login"), errorMessage, "ERROR");
+            sendPrivateMessage((String)session.getAttributes().get("login"), sendMessage);
             return;
         }
         switch (receiveMessage.getType()) {
-            case "CONNECT": {
-                activeUsers.put(session.getPrincipal().getName(), session);
-                webSocketService.getAllMessage(session.getPrincipal().getName())
-                        .stream()
-                        .peek(m -> sendPrivateMessage(session.getPrincipal().getName(), m)).count();
-                webSocketService.deleteAllPrivateMessages(session.getPrincipal().getName());
-                sendAllChangeActiveList();
-                break;
-            }
             case "BROADCAST": {
-                SendMessage sendMessage = createSendMessage(session.getPrincipal().getName(),
+                SendMessage sendMessage = createSendMessage((String)session.getAttributes().get("login"),
                         receiveMessage.getMessage(),
                         "BROADCAST");
                 this.sendAll(sendMessage);
@@ -66,7 +68,7 @@ public class WebSocketController extends TextWebSocketHandler {
 
             }
             case "PRIVATE": {
-                SendMessage sendMessage = createSendMessage(session.getPrincipal().getName(),
+                SendMessage sendMessage = createSendMessage((String)session.getAttributes().get("login"),
                         receiveMessage.getMessage(),
                         "PRIVATE");
                 if (isActiveUser(receiveMessage.getReceiver())) {
@@ -80,8 +82,8 @@ public class WebSocketController extends TextWebSocketHandler {
                 SendMessage sendMessage = createSendMessage(session.getPrincipal().getName(),
                         "",
                         "LOGOUT");
-                sendPrivateMessage(session.getPrincipal().getName(), sendMessage);
-                removeFromActiveUsers(session.getPrincipal().getName());
+                sendPrivateMessage((String)session.getAttributes().get("login"), sendMessage);
+                removeFromActiveUsers((String)session.getAttributes().get("login"));
                 sendAllChangeActiveList();
                 break;
             }
