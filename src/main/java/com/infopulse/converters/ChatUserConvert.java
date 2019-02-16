@@ -11,16 +11,12 @@ public class ChatUserConvert {
         ChatUser chatUser =new ChatUser();
         chatUser.setLogin(chatUserDto.getLogin());
         chatUser.setName(chatUserDto.getName());
-        chatUser.setPassword(chatUserDto.getPassword());
         return chatUser;
     }
 
-    public ChatUserDto convertToDto(ChatUser chatUser, boolean sendPassword){
+    public ChatUserDto convertToDto(ChatUser chatUser){
         ChatUserDto chatUserDto = new ChatUserDto();
         chatUserDto.setName(chatUser.getName());
-        if(sendPassword) {
-            chatUserDto.setPassword(chatUser.getPassword());
-        }
         chatUserDto.setLogin(chatUser.getLogin());
         chatUserDto.setIsBanned(chatUser.getBan()!=null);
         return chatUserDto;

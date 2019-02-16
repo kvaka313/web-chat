@@ -82,5 +82,6 @@ dependencies {
 
     compile 'com.google.guava:guava:21.0'
     compile 'com.jayway.jsonpath:json-path:2.2.0'
+    compile 'org.liquibase:liquibase-core:3.6.3'
 
 }

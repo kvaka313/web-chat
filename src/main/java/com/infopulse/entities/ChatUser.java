@@ -28,9 +28,6 @@ public class ChatUser {
     @Column(name = "login", nullable = false, unique = true)
     private String login;
 
-    @Column(name="password", nullable = false)
-    private String password;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="last_visit")
     private Date lastVisit;
