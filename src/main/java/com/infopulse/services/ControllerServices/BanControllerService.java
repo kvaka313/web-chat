@@ -30,4 +30,8 @@ public class BanControllerService {
 
         banDataService.removeFromBan(login);
     }
+
+    public boolean verifyForBan(String login){
+        return banDataService.verifyForBan(login);
+    }
 }

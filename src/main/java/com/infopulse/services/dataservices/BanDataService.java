@@ -55,4 +55,14 @@ public class BanDataService {
         chatUser.setBan(null);
         banRepository.delete(ban);
     }
+
+    public boolean verifyForBan(String login){
+        ChatUser chatUser = chatUserRepository.findByLogin(login);
+        if(chatUser == null){
+            throw new UserNotFoundException(String.format("User with login %s does not exist", login));
+
+        }
+
+        return chatUser.getBan() != null;
+    }
 }
