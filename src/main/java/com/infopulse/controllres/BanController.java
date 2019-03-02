@@ -2,8 +2,10 @@ package com.infopulse.controllres;
 
 import com.infopulse.dto.ChatUserDto;
 import com.infopulse.services.ControllerServices.BanControllerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 public class BanController {
 
@@ -16,6 +18,7 @@ public class BanController {
     @CrossOrigin
     @RequestMapping(value="/ban", method = RequestMethod.POST)
     public void addUserToBan(@RequestBody ChatUserDto chatUserDto){
+        log.debug(String.format("Call ban endpoint for login %s", chatUserDto.getLogin()));
         banControllerService.addUserToBan(chatUserDto);
     }
 

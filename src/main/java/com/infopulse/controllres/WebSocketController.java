@@ -7,6 +7,7 @@ import com.infopulse.repositories.BanRepository;
 import com.infopulse.services.ControllerServices.BanControllerService;
 import com.infopulse.services.ControllerServices.WebSocketServiceController;
 import com.infopulse.validation.ReceiveMessageGroup;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class WebSocketController extends TextWebSocketHandler {
 
     @Autowired
@@ -144,7 +146,8 @@ public class WebSocketController extends TextWebSocketHandler {
                 item.getValue().sendMessage(textMessage);
             }
         } catch (IOException e) {
-            new RuntimeException(e);
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
 
         }
     }
